@@ -11,14 +11,8 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    },
-    contacts: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Contact"
-        }
-    ]
-});
+    }
+}, { timestamps: true });
 
 userSchema.pre('save', function hashPassword(next) {
     const user =  this;

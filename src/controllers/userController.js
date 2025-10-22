@@ -28,7 +28,6 @@ export const signupController = async(req, res) => {
 export const loginController = async(req, res) => {
     try {
         const response = await loginService(req.body);
-        console.log(response);
         return res.status(201).json({
             message: "Signed up logged in",
             data: response,

@@ -51,7 +51,6 @@ export const loginService = async(userData) => {
         }
 
         return{
-            username: user.username,
             phone: user.phone,
             _id: user._id,
             token: createJWT({ id: user._id, phone: user.phone })

@@ -21,12 +21,12 @@ export const getByPhone = async(phone) => {
     }
 }
 
-export const getUserWithDetails = async(id) => {
+export const getUserById = async(id) => {
     try {
-        const user = await User.findById(id).populate({ path: 'contacts' });
+        const user = await User.findById(id);
         return user;
     } catch (error) {
-        console.log("Error at getUserWithDetails:", error);
+        console.log("Error at getUserByIdRepository:", error);
         throw error;
     }
 }

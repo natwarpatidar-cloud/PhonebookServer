@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 
 const contactSchema = new mongoose.Schema({
-    contactName: {
+    name: {
         type: String,
         required: true,
     },
@@ -13,7 +13,7 @@ const contactSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        required: true
+        // required: true
     },
     address: {
         type: String,
@@ -22,8 +22,13 @@ const contactSchema = new mongoose.Schema({
     label: {
         type: String,
         enum: ['Work', 'School' , 'Friends', 'Family'],
-    } 
-});
+    },
+    user: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User' 
+    }
+
+}, { timestamps: true });
 
 const Contact = mongoose.model('Contact', contactSchema);
 
