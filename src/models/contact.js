@@ -21,7 +21,7 @@ const contactSchema = new mongoose.Schema({
     },
     label: {
         type: String,
-        enum: ['Work', 'School' , 'Friends', 'Family'],
+        enum: ['work', 'school' , 'friends', 'family'],
     },
     user: { 
         type: mongoose.Schema.Types.ObjectId, 

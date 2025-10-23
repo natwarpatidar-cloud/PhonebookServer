@@ -1,4 +1,4 @@
-import { createContact, deleteContact, getContactById, updateContact } from '../repositories/contactRepository.js';
+import { createContact, deleteContact, getAllContacts, getContactById, updateContact } from '../repositories/contactRepository.js';
 
 export const createContactService = async (data, userId) => {
     try {
@@ -37,7 +37,7 @@ export const updateContactService = async (id, data, userId) => {
     }
 }
 
-export const deleteContactService = async (id, data, userId) => {
+export const deleteContactService = async (id, userId) => {
     try {
         if(!id) {
             throw new Error("Contact id is required");
@@ -46,12 +46,27 @@ export const deleteContactService = async (id, data, userId) => {
         if(!contact) {
             throw new Error("Contact not found");
         }
-        if(contact.user.toString() !== userId) {
+        if(contact.user.toString() !== userId.toString()) {
             throw new Error("You're not autorized to delete this contact");
         }
-        await deleteContact(id, data);
+        await deleteContact(id);
     } catch (error) {
         console.log("Error in deleteContactService: ", error);
+        throw error;
+    }
+}
+
+export const getAllContactService = async(userId, page, limit) => {
+    try {
+        if(!userId) throw new Error("User id is required");
+        const contacts = await getAllContacts(userId, page, limit);
+        return {
+            contacts: contacts,
+            page,
+            limit
+        };
+    } catch (error) {
+        console.log("Error in getAllContacts service: ", error);
         throw error;
     }
 }

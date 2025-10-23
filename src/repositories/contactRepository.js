@@ -38,3 +38,13 @@ export const getContactById = async (id) => {
         throw error;
     }
 }
+
+export const getAllContacts = async (userId, page, limit) => {
+    try {
+        const contacts = await Contact.find({ user: userId }).sort({ createdAt: -1 }).skip((page - 1)*limit).limit(limit);
+        return contacts;
+    } catch (error) {
+        console.log("Error in getAllContacts repo: ", error);
+        throw error;
+    }
+}
