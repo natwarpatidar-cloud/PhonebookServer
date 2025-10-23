@@ -2,11 +2,10 @@ import { createContactService, updateContactService, deleteContactService, getAl
 
 export const createContactController = async (req, res) => {
     try {
-        if(!req.file) {
-            throw new Error("Avatar is required");
+        if(req.file) {
+            req.body.avatar = req.file.path;
+            req.body.public_key = req.file.filename;
         }
-        req.body.avatar = req.file.path;
-        req.body.public_key = req.file.filename;
         const response = await createContactService(req.body, req.user.id);
         return res.status(201).json({
             success: true,
@@ -37,6 +36,10 @@ export const createContactController = async (req, res) => {
 
 export const updateContactController = async (req, res) => {
     try {
+        if(req.file) {
+            req.body.avatar = req.file.path;
+            req.body.public_key = req.file.filename;
+        }
         const response = await updateContactService(req.params.contactId, req.body, req.user.id);
         return res.status(200).json({
             success: true,
@@ -51,6 +54,11 @@ export const updateContactController = async (req, res) => {
                 data: {},
                 error: error.message
             });
+        }
+        if (req.file || req.file.filename) {
+            console.log("deleting image");
+            await deleteImageCloudinary(req.file.filename);
+            return;
         }
         return res.status(501).json({
             success: false,
